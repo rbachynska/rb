@@ -1,0 +1,89 @@
+// Helper functions for music
+
+#include <cs50.h>
+#include <stdio.h>
+#include "helpers.h"
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
+
+
+// Converts a fraction formatted as X/Y to eighths
+int duration(string fraction)
+{
+  int numerator = fraction[0]-'0';
+  int denominator = fraction[2]-'0';
+  int count_8 = (8/denominator)*numerator;
+  return count_8;
+}
+
+// Calculates frequency (in Hz) of a note
+int frequency(string note)
+{
+    int frequency_note;
+    int frequency_note1;
+    //string notes_clean [] = {"C4", "D4", "E4", "F4","G4", "A4", "B4"};
+    char letters [] = {'C', 'D', 'E', 'F', 'G', 'A', 'B'};
+    int frequency_value [] = {262, 294, 330, 349, 392, 440, 494};
+    char letterssharp [] = {'C', 'D', 'F', 'G', 'A'};
+    char lettersb [] = {'D', 'E', 'G', 'A', 'B'};
+    int frequency_value_sharpb [] = {277, 311, 370, 415, 466};
+    int oct4 = 4;
+
+    if (strlen(note) == 2)
+    {
+            for (int i = 0, n = sizeof (letters); i < n; i++)
+            {
+                if (note[0] == letters[i])
+                {
+                    frequency_note1 = frequency_value [i];
+                }
+                 int oct = (note [1]-'0') - oct4;
+                 frequency_note = frequency_note1 * pow(2,oct);
+            }
+    }
+    else if (note[1] == '#')
+        {
+        for (int i = 0, n = sizeof (letterssharp); i < n; i++)
+            {
+                if (note[0] == letterssharp[i])
+                {
+                    frequency_note1 = frequency_value_sharpb [i];
+                }
+                 int oct = (note [2]-'0') - oct4;
+                 frequency_note = frequency_note1 * pow(2,oct);
+            }
+        }
+
+    else
+    {
+        if (note[1] == 'b')
+        {
+        for (int i = 0, n = sizeof (lettersb); i < n; i++)
+            {
+                if (note[0] == lettersb[i])
+                {
+                    frequency_note1 = frequency_value_sharpb [i];
+                }
+                 int oct = (note [2]-'0') - oct4;
+                 frequency_note = frequency_note1 * pow(2,oct);
+            }
+        }
+    }
+    return frequency_note;
+}
+
+
+// Determines whether a string represents a rest
+bool is_rest(string s)
+{
+    if ( ! s[0] )
+    {
+    return true; // Пустая
+    }
+    else
+    {
+    return false;
+    }
+}
